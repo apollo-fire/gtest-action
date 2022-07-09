@@ -2,12 +2,16 @@
 name: 'Googletest Action'
 description: 'GitHub action to build and run Googletest cases'
 author: 'Grahame White'
+inputs:
+  test-path:
+    description: 'relative path to directory containing test code'
+    required: true
+    default: 'tests'
 runs:
   using: 'docker'
   image: 'docker://ghcr.io/apollo-fire/gtest-action:v0.0.1'
   args:
-    - ${{ inputs.project-path }}
-    - ${{ inputs.build-configuration }}
+    - ${{ inputs.test-path }}
 branding:
   icon: 'code'
   colour: 'orange'
