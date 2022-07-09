@@ -1,5 +1,5 @@
 ---
-name: create gtest_action container
+name: Create gtest-action container
 
 on:
   release:
@@ -31,7 +31,7 @@ jobs:
           tags: >
             ghcr.io/${{
             github.repository_owner 
-            }}/ccs_build:${{
+            }}/gtest-action:${{
             env.RELEASE_VERSION
             }}
           cache-from: type=gha

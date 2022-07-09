@@ -2,6 +2,6 @@
 Docker Action that can build and execute Googletest cases
 
 ## Example usage
-```
-- uses: grahame-student/gtest_action@v0.0.1
+```yaml
+- uses: apollo-fire/gtest-action@v0.0.1
 ```
