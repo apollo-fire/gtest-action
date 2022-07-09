@@ -1,0 +1,13 @@
+---
+name: 'Googletest Action'
+description: 'GitHub action to build and run Googletest cases'
+author: 'Grahame White'
+runs:
+  using: 'docker'
+  image: 'docker://ghcr.io/apollo-fire/gtest-action:v0.0.1'
+  args:
+    - ${{ inputs.project-path }}
+    - ${{ inputs.build-configuration }}
+branding:
+  icon: 'code'
+  colour: 'orange'
