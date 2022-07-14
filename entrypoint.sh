@@ -1,21 +1,24 @@
-#!/bin/sh
+#!/bin/bash
 
 # Args
-# 1 - path to directory with test cases
+# $1 paths to the unit test projects, delimited by ;
 
-# Record starting directory
-cwd="$PWD"
+# Split the delimited string into an array of paths
+IFS=';' read -ra paths <<< "$1"
 
-# Build the unit tests
-cp /CMakeLists.txt "$1"
-cd "$1" || exit 1
-cmake CMakeLists.txt
-make || exit 2
+for i in "${paths[@]}"; do
+  echo "processing unit tests in: $i"
+  
+  cp /CMakeLists.txt "$i"
+  pushd "$i" || exit 1
+  cmake CMakeLists.txt
+  make || exit 2
 
-# execute the unit tests
-cd "$cwd" || exit 3
-cp "$1/unit_tests" "$cwd"
-./unit_tests || exit 4
+  # execute the unit tests
+  popd || exit 3
+  "./$i/unit_tests" || exit 4
 
-# generate a coverage report
-gcovr --branches --xml-pretty -r . >> gcovr-report.xml
+  # generate a coverage report
+  uuid=$(uuidgen)
+  gcovr --branches --xml-pretty -r . >> "$uuid-report.xml"
+done
