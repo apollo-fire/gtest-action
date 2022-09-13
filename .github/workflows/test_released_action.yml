@@ -7,7 +7,7 @@ on:
 jobs:
   test_ccs_build:
     runs-on: ubuntu-latest
-    name: Test CCS Build
+    name: Test GTest Action
     steps:
       - name: Checkout
         uses: actions/checkout@v3.0.2
