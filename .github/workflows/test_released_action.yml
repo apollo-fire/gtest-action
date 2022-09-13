@@ -1,0 +1,18 @@
+---
+name: Test released GoogleTest action
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  test_ccs_build:
+    runs-on: ubuntu-latest
+    name: Test CCS Build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.2
+        
+      - name: CCS Build action step
+        uses: apollo-fire/gtest-action@v0.0.3
+        with:
+          test-path: 'test/working_unittest_project'
