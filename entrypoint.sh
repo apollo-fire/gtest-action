@@ -16,7 +16,7 @@ for i in "${paths[@]}"; do
 
   # execute the unit tests
   popd || exit 3
-  "./$i/unit_tests" || exit 4
+  "valgrind --leak-check=full --error-exitcode=4 ./$i/unit_tests" || exit 4
 
   # generate a coverage report
   uuid=$(uuidgen)
