@@ -7,7 +7,7 @@
 
 cmake_minimum_required(VERSION 3.10)
 project(unit_tests)
- 
+
 # locate required packages
 find_package(GTest REQUIRED)
 find_package(Threads REQUIRED)
@@ -23,7 +23,7 @@ add_definitions(-DUNIT_TESTING)
 add_definitions(-fprofile-arcs -ftest-coverage )
 
 # define the compiler options to be used
-add_compile_options(-Wall -g3 -fPIC -pthread -lgtest_main -lgtest -lpthread)
+add_compile_options(-Wall -g3 -O0 -fPIC -pthread -lgtest_main -lgtest -lpthread)
 
 # define the executable to be generated
 add_executable(unit_tests ${unittest_SRC})
