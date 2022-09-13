@@ -7,7 +7,7 @@ RUN apk --no-cache add build-base=0.5-r3 \
                        gcovr=5.2-r0 \
                        uuidgen=2.38-r1 \
                        bash=5.1.16-r2 \
-                       valgrind
+                       valgrind=3.19.0-r0
 RUN mkdir /workdir
 
 COPY entrypoint.sh /entrypoint.sh
