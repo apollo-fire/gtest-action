@@ -46,7 +46,10 @@ add_compile_definitions(UNIT_TESTING)
 # set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # build GoogleTest from external source
-cmake_policy(SET CMP0135 NEW)
+if(NOT ${CMAKE_VERSION} VERSION_LESS "3.24")
+  cmake_policy(SET CMP0135 NEW)
+endif()
+
 include(FetchContent)
 FetchContent_Declare(
   googletest
