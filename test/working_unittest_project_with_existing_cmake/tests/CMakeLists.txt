@@ -1,4 +1,4 @@
-set(NAME tests)
+set(NAME dummy_tests)
 
 add_executable(${NAME})
 target_sources(${NAME} PRIVATE dummy-test.cpp)
