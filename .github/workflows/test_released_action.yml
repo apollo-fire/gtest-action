@@ -15,4 +15,4 @@ jobs:
       - name: CCS Build action step
         uses: apollo-fire/gtest-action@use-existing-cmake-file
         with:
-          test-path: 'test/working_unittest_project'
+          test-path: 'test/working_unittest_project_with_existing_cmake'
