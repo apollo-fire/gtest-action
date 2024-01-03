@@ -19,7 +19,7 @@ for i in "${paths[@]}"; do
   make || exit 2
 
   # Find all executables ending in _tests recursively in the specified root directory
-  test_executables=($(find "$i" -type f -executable -name "*_tests"))
+  mapfile -t test_executables < <(find "$i" -type f -executable -name "*_tests")
 
   # Check if any test executables were found
   if [ ${#test_executables[@]} -eq 0 ]; then
