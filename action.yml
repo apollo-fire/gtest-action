@@ -9,7 +9,8 @@ inputs:
     default: 'tests'
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/apollo-fire/gtest-action:v0.0.3'
+  #image: 'docker://ghcr.io/apollo-fire/gtest-action:v0.0.3'
+  image: Dockerfile
   args:
     - ${{ inputs.test-path }}
 branding:
