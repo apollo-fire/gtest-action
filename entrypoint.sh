@@ -24,6 +24,7 @@ for i in "${paths[@]}"; do
 
   # Check if any test executables were found
   if [ ${#test_executables[@]} -eq 0 ]; then
+    echo "no test executables found"
     exit 4
   fi
 
