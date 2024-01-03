@@ -19,6 +19,7 @@ for i in "${paths[@]}"; do
   make || exit 2
 
   # Find all executables ending in _tests recursively in the specified root directory
+  popd || exit 3
   mapfile -t test_executables < <(find "$i" -type f -executable -name "*_tests")
 
   # Check if any test executables were found
@@ -27,7 +28,6 @@ for i in "${paths[@]}"; do
   fi
 
   # execute the unit tests
-  popd || exit 3
   for executable in "${test_executables[@]}"; do
     valgrind --leak-check=full --error-exitcode=4 "$executable" || exit 4
   done
