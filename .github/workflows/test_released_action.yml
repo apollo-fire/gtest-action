@@ -12,7 +12,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.1
         
-      - name: CCS Build action step
+      - name: GTest Action
+        uses: apollo-fire/gtest-action@use-existing-cmake-file
+        with:
+          test-path: 'test/working_unittest_project'
+
+      - name: GTest Action with existing CMake file
         uses: apollo-fire/gtest-action@use-existing-cmake-file
         with:
           test-path: 'test/working_unittest_project_with_existing_cmake'
