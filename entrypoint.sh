@@ -15,7 +15,7 @@ for i in "${paths[@]}"; do
   fi
 
   pushd "$i" || exit 1
-  cmake CMakeLists.txt
+  cmake -DCMAKE_CXX_FLAGS="--coverage" CMakeLists.txt
   make || exit 2
 
   # Find all executables ending in _tests recursively in the specified root directory
