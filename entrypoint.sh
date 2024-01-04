@@ -35,5 +35,5 @@ for i in "${paths[@]}"; do
 
   # generate a coverage report
   uuid=$(uuidgen)
-  gcovr . -r "src" --branches --xml-pretty >> "$uuid-report.xml"
+  gcovr . --branches --xml-pretty >> "$uuid-report.xml"
 done
