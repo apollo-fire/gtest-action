@@ -34,10 +34,10 @@ for i in "${paths[@]}"; do
   done
 
   # determine source dir
-  if [ "$#" -eq 2 ]; then
-    source_dir=$2
+  if [ -z "$2" ]; then
+    source_dir="."
   else
-    source_dir=.
+    source_dir=$2
   fi
 
   # generate a coverage report
