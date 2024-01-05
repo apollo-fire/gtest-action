@@ -15,7 +15,7 @@ for i in "${paths[@]}"; do
   fi
 
   pushd "$i" || exit 1
-  cmake -DCMAKE_CXX_FLAGS="--coverage" CMakeLists.txt
+  cmake CMakeLists.txt
   make || exit 2
 
   # Find all executables ending in _tests recursively in the specified root directory
@@ -33,7 +33,14 @@ for i in "${paths[@]}"; do
     valgrind --leak-check=full --error-exitcode=4 "$executable" || exit 4
   done
 
+  # determine source dir
+  if [ "$#" -eq 2 ]; then
+    source_dir=$2
+  else
+    source_dir=.
+  fi
+
   # generate a coverage report
   uuid=$(uuidgen)
-  gcovr . --branches --xml-pretty >> "$uuid-report.xml"
+  gcovr . --root "$source_dir"  --branches --xml-pretty >> "$uuid-report.xml"
 done
