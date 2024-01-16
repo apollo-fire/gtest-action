@@ -7,11 +7,15 @@ inputs:
     description: 'relative path to directory containing test code'
     required: true
     default: 'tests'
+  source-path:
+    description: 'relative path to directory containing source code, if different to test path'
+    required: false
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/apollo-fire/gtest-action:v0.0.3'
+  image: 'docker://ghcr.io/apollo-fire/gtest-action:v0.0.4'
   args:
     - ${{ inputs.test-path }}
+    - ${{ inputs.source-path }}
 branding:
   icon: 'code'
   colour: 'orange'
