@@ -6,7 +6,7 @@
 # Determine processor count
 CPU_COUNT=$(nproc)
 
-if ! [ "$CPU_COUNT" -eq "$CPU_COUNT" ] 2> /dev/null
+if ! [ "$CPU_COUNT" -eq "$CPU_COUNT" ] 2> /dev/null;
 then
     echo "::debug::CPU_COUNT is not an integer"
     CPU_COUNT=1
