@@ -33,5 +33,6 @@ jobs:
         with:
           push: true
           tags: ghcr.io/${{ github.repository }}:${{ env.RELEASE_VERSION }}
-          #cache-from: type=gha
-          #cache-to: type=gha,mode=max
+          no-cache: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
