@@ -5,16 +5,16 @@
 
 # Determine processor count
 CPU_COUNT=$(nproc)
-echo "::debug::Initialising CPU_COUNT to $CPU_COUNT"
+echo "Initialising CPU_COUNT to $CPU_COUNT"
 
 if ! [ "$CPU_COUNT" -eq "$CPU_COUNT" ] 2> /dev/null;
 then
-    echo "::debug::CPU_COUNT is not an integer"
+    echo "CPU_COUNT is not an integer"
     CPU_COUNT=1
 else
     CPU_COUNT=$((CPU_COUNT - 1))
 fi
-echo "::debug::Setting CPU_COUNT to $CPU_COUNT"
+echo "Setting CPU_COUNT to $CPU_COUNT"
 
 # Split the delimited string into an array of paths
 IFS=';' read -ra paths <<< "$1"
