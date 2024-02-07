@@ -10,7 +10,7 @@ RUN apk --no-cache add build-base=0.5-r3 \
                        valgrind=3.19.0-r0
 RUN mkdir /workdir
 
-ADD entrypoint.sh /entrypoint.sh
-ADD CMakeLists.txt /CMakeLists.txt
+COPY entrypoint.sh /entrypoint.sh
+COPY CMakeLists.txt /CMakeLists.txt
 
 ENTRYPOINT ["/entrypoint.sh"]
