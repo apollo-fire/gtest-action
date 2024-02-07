@@ -3,6 +3,18 @@
 # Args
 # $1 paths to the unit test projects, delimited by ;
 
+# Determine processor count
+CPU_COUNT=$(nproc)
+
+if ! [ "$CPU_COUNT" -eq "$CPU_COUNT" ] 2> /dev/null
+then
+    echo "CPU_COUNT is not an integer, defaulting to 1"
+    CPU_COUNT=1
+else
+    CPU_COUNT=$((CPU_COUNT - 1))
+    echo "Setting CPU_COUNT to $CPU_COUNT"
+fi
+
 # Split the delimited string into an array of paths
 IFS=';' read -ra paths <<< "$1"
 
@@ -15,8 +27,8 @@ for i in "${paths[@]}"; do
   fi
 
   pushd "$i" || exit 1
-  cmake CMakeLists.txt
-  make || exit 2
+  cmake CMakeLists.txt  
+  make -j "$CPU_COUNT" || exit 2
 
   # Find all executables ending in _tests recursively in the specified root directory
   popd || exit 3
