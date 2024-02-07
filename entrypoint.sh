@@ -5,6 +5,7 @@
 
 # Determine processor count
 CPU_COUNT=$(nproc)
+echo "::debug::Initialising CPU_COUNT to $CPU_COUNT"
 
 if ! [ "$CPU_COUNT" -eq "$CPU_COUNT" ] 2> /dev/null;
 then
