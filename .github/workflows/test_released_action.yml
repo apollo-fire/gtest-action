@@ -30,7 +30,7 @@ jobs:
             test/working_unittest_project_with_existing_cmake"
 
       - name: GTest Action building with j8 flag set
-        uses: apollo-fire/gtest-action@vfeature/tune-parallel-compilation
+        uses: apollo-fire/gtest-action@feature/tune-parallel-compilation
         with:
           test-path: 'test/working_unittest_project'
           parallel-compilation-count: 8
