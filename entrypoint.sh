@@ -18,8 +18,9 @@ then
         CPU_COUNT=$((CPU_COUNT - 1))
     fi    
 else
+    MAX_CPU=8
     # Use value passed in by user
-    CPU_COUNT=$(($3 < CPU_COUNT ? $3 : CPU_COUNT))
+    CPU_COUNT=$(($3 < MAX_CPU ? $3 : MAX_CPU))
 fi
 echo "Setting CPU_COUNT to $CPU_COUNT"
 
