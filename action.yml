@@ -13,7 +13,7 @@ inputs:
   parallel-compilation-count:
     description: 'j flag value to pass to make when building unit tests'
     required: true
-    default: '2'
+    default: 'unset'
 runs:
   using: 'docker'
   image: 'docker://ghcr.io/apollo-fire/gtest-action:v0.0.5'
