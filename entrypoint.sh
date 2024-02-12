@@ -2,19 +2,31 @@
 
 # Args
 # $1 paths to the unit test projects, delimited by ;
+# $2 relative path to project under test's sourcecode
+# $3 value to use for makes' j flag
 
-# Determine processor count
-CPU_COUNT=$(nproc)
-echo "Initialising CPU_COUNT to $CPU_COUNT"
-
-if ! [ "$CPU_COUNT" -eq "$CPU_COUNT" ] 2> /dev/null;
+# Check if user has passed in an integer value
+if ! [ "$3" -eq "$3" ] 2> /dev/null;
 then
-    echo "CPU_COUNT is not an integer"
-    CPU_COUNT=1
+    # Automatically determine processing unit count
+    CPU_COUNT=$(nproc)
+    echo "Detected $CPU_COUNT processing units"
+    if ! [ "$CPU_COUNT" -eq "$CPU_COUNT" ] 2> /dev/null;
+    then
+        echo "CPU_COUNT is not an integer"
+        CPU_COUNT=1
+    else
+        CPU_COUNT=$((CPU_COUNT - 1))
+    fi    
 else
-    CPU_COUNT=$((CPU_COUNT - 1))
+    echo "Requested $3 processing units"
+    MAX_CPU=8
+    # Use value passed in by user, throttled to MAX_CPU
+    CPU_COUNT=$(($3 < MAX_CPU ? $3 : MAX_CPU))
 fi
 echo "Setting CPU_COUNT to $CPU_COUNT"
+
+
 
 # Split the delimited string into an array of paths
 IFS=';' read -ra paths <<< "$1"
