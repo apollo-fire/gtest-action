@@ -63,7 +63,7 @@ for i in "${paths[@]}"; do
 
   # execute the unit tests
   for executable in "${test_executables[@]}"; do
-    if ! [ "$SHUFFLE_COUNT" -gt 0 ] 2> /dev/null;
+    if [ "$SHUFFLE_COUNT" -gt 0 ] 2> /dev/null;
     then
       echo "shuffling tests $SHUFFLE_COUNT times"
       "$executable" --gtest_shuffle --gtest_repeat="$SHUFFLE_COUNT"
