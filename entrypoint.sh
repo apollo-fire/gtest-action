@@ -4,6 +4,7 @@
 # $1 paths to the unit test projects, delimited by ;
 # $2 relative path to project under test's sourcecode
 # $3 value to use for makes' j flag
+# $4 number of times to run the tests
 
 # Check if user has passed in an integer value
 if ! [ "$3" -eq "$3" ] 2> /dev/null;
@@ -26,7 +27,14 @@ else
 fi
 echo "Setting CPU_COUNT to $CPU_COUNT"
 
-
+# Check if user has passed in an integer value
+if ! [ "$4" -eq "$4" ] 2> /dev/null;
+then
+    SHUFFLE_COUNT=0
+else
+    SHUFFLE_MAX=1000
+    SHUFFLE_COUNT=$(($4 < SHUFFLE_MAX ? $4 : SHUFFLE_MAX))
+fi
 
 # Split the delimited string into an array of paths
 IFS=';' read -ra paths <<< "$1"
@@ -55,6 +63,12 @@ for i in "${paths[@]}"; do
 
   # execute the unit tests
   for executable in "${test_executables[@]}"; do
+    if ! [ "$SHUFFLE_COUNT" -gt 0 ] 2> /dev/null;
+    then
+      "$executable" --gtest_shuffle --gtest_repeat="$SHUFFLE_COUNT"
+    fi
+
+    # only run once through valgrind due to the additional overhead
     valgrind --leak-check=full --error-exitcode=4 "$executable" || exit 4
   done
 
