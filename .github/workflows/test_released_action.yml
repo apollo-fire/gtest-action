@@ -10,7 +10,7 @@ jobs:
     name: Test GTest Action
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.2
         
       - name: GTest Action without exisiting CMake file
         uses: apollo-fire/gtest-action@v0.0.7
