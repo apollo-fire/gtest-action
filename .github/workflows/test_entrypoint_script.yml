@@ -36,12 +36,13 @@ jobs:
       - name: Check working unit tests
         run: |
           ls -l .
-          ls -l test/good_unit_tests          
+          ls -l test/good_unit_tests
           ./entrypoint.sh test/good_unit_tests test/good_unit_tests 2 1
         
       - name: Check failing unit tests
         run: |
-           result=$(./entrypoint.sh test/failing_unit_tests test/failing_unit_tests 2 1)
-           if [ "$result" -eq 0 ]; then
+           has_failed=false
+           ./entrypoint.sh test/failing_unit_tests test/failing_unit_tests 2 1 || has_failed=true
+           if [ "$has_failed" = false ]; then
                exit 1
            fi
