@@ -6,11 +6,14 @@ on:
     types: [published]
   workflow_dispatch:
 
+permissions: read-all
+
 jobs:
   docker:
     runs-on: ubuntu-latest
 
     permissions:
+      content: read
       packages: write
   
     steps:
