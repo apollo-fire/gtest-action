@@ -40,7 +40,7 @@ jobs:
         
       - name: Check failing unit tests
         run: |
-           cp CMakeLists.txt test/failing-tests/CMakeLists.txt
+           cp CMakeLists.txt test/failing_tests/CMakeLists.txt
            has_failed=false
            ./entrypoint.sh test/failing_unit_tests test/failing_unit_tests 2 1 || has_failed=true
            if [ "$has_failed" = false ]; then
