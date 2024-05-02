@@ -1,0 +1,44 @@
+---
+name: Test detection of passing / failing unit tests
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request_target:
+    branches: ['dependabot/**']
+
+  pull_request:
+    types: [opened, synchronize, edited]
+
+permissions: read-all
+
+jobs:
+  test-passing-failing-tests:
+    runs-on: ubuntu-latest    
+    name: Test Detection Of Passing / Failing Tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+        
+      - name: Install Gtest
+        run: |
+          sudo apt-get install libgtest-dev gcovr libicu-dev valgrind
+          pushd /usr/src/gtest || exit 1
+          sudo cmake CMakeLists.txt
+          sudo make
+          sudo cp /usr/src/googletest/googletest/lib/*.a /usr/lib
+          sudo ln -s /usr/lib/libgtest.a /usr/local/lib/libgtest.a
+          sudo ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
+          popd || exit 2
+        
+      - name: Check working unit tests
+        run: ./entrypoint.sh test/good_unit_tests test/good_unit_tests 2 1
+        
+      - name: Check failing unit tests
+        run: |
+           result=$(./entrypoint.sh test/failing_unit_tests test/failing_unit_tests 2 1)
+           if [ "$result" -eq 0 ]; then
+               exit 1
+           fi
