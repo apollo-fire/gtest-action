@@ -46,3 +46,12 @@ jobs:
            if [ "$has_failed" = false ]; then
                exit 1
            fi
+
+      - name: Check mixture of passing and failing unit tests
+        run: |
+           has_failed=false
+           projects="test/good_unit_tests;test/failing_unit_tests"
+           ./entrypoint.sh "$projects" "." 2 1 || has_failed=true
+           if [ "$has_failed" = false ]; then
+               exit 1
+           fi
