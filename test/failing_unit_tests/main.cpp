@@ -3,7 +3,6 @@
 
 #include "gtest/gtest.h"
 
-
 int main(int argc, char **argv)
 
 {
@@ -13,5 +12,5 @@ int main(int argc, char **argv)
 
 TEST(UnitTestValidation, Fails)
 {
-     EXPECT_EQ(true, false);
+    EXPECT_EQ(true, false);
 }
