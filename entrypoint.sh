@@ -39,6 +39,7 @@ fi
 # Split the delimited string into an array of paths
 IFS=';' read -ra paths <<< "$1"
 
+has_failed=false
 for i in "${paths[@]}"; do
   echo "processing unit tests in: $i"
   
@@ -66,7 +67,10 @@ for i in "${paths[@]}"; do
     if [ "$SHUFFLE_COUNT" -gt 0 ] 2> /dev/null;
     then
       echo "shuffling tests $SHUFFLE_COUNT times"
-      "$executable" --gtest_shuffle --gtest_repeat="$SHUFFLE_COUNT"
+      test_result=$("$executable" --gtest_shuffle --gtest_repeat="$SHUFFLE_COUNT")
+      if [ "$test_result" -ne 0 ]; then
+        has_failed=true
+      fi
     fi
 
     # only run once through valgrind due to the additional overhead
@@ -84,3 +88,8 @@ for i in "${paths[@]}"; do
   uuid=$(uuidgen)
   gcovr . --root "$source_dir"  --branches --xml-pretty >> "$uuid-report.xml"
 done
+
+# evaluate the results and exit if a test failed
+if [ "$has_failed" = true ]; then
+  exit 4
+fi
