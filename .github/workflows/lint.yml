@@ -3,9 +3,14 @@ name: Lint Project
 
 on:
   push:
-    branches-ignore:
-      - 'dependabot/**'
+    branches:
+      - main
+
+  pull_request_target:
+    branches: ['dependabot/**']
+
   pull_request:
+    types: [opened, synchronize, edited]
 
 permissions: read-all
 
