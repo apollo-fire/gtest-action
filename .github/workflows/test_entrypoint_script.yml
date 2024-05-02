@@ -34,7 +34,10 @@ jobs:
           popd || exit 2
         
       - name: Check working unit tests
-        run: ./entrypoint.sh test/good_unit_tests test/good_unit_tests 2 1
+        run: |
+          ls -l .
+          ls -l test/good_unit_tests          
+          ./entrypoint.sh test/good_unit_tests test/good_unit_tests 2 1
         
       - name: Check failing unit tests
         run: |
