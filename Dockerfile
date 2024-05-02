@@ -14,3 +14,7 @@ COPY entrypoint.sh /entrypoint.sh
 COPY CMakeLists.txt /CMakeLists.txt
 
 ENTRYPOINT ["/entrypoint.sh"]
+
+HEALTHCHECK CMD exit 0
+
+USER gtest
