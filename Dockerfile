@@ -1,3 +1,7 @@
+#checkov:skip=CKV_DOCKER_3: "Ensure that a user for the container has been created"
+#GitHub actions require that the docker image use the root user
+#https://docs.github.com/en/actions/creating-actions/dockerfile-support-for-github-actions#user
+
 FROM alpine:3.16.2
 
 RUN apk --no-cache add build-base=0.5-r3 \
@@ -16,5 +20,3 @@ COPY CMakeLists.txt /CMakeLists.txt
 ENTRYPOINT ["/entrypoint.sh"]
 
 HEALTHCHECK CMD exit 0
-
-USER gtest
