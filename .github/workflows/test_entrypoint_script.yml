@@ -20,7 +20,7 @@ jobs:
     name: Test Detection Of Passing / Failing Tests
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.5
         
       - name: Install Gtest
         run: |
