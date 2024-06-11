@@ -4,6 +4,12 @@ name: Dry run Docker Container Build
 on:
   workflow_dispatch:
 
+  pull_request_target:
+    branches: ['dependabot/**']
+
+  pull_request:
+    types: [opened, synchronize, edited]
+    
 permissions: read-all
 
 jobs:
