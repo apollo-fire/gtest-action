@@ -15,30 +15,30 @@ jobs:
         uses: actions/checkout@v4.1.1
         
       - name: GTest Action without exisiting CMake file
-        uses: apollo-fire/gtest-action@v0.0.7
+        uses: apollo-fire/gtest-action@v0.0.9
         with:
           test-path: 'test/working_unittest_project'
 
       - name: GTest Action with existing CMake file
-        uses: apollo-fire/gtest-action@v0.0.7
+        uses: apollo-fire/gtest-action@v0.0.9
         with:
           test-path: 'test/working_unittest_project_with_existing_cmake'
 
       - name: GTest Action with mix of project styles, with and without existing CMake file
-        uses: apollo-fire/gtest-action@v0.0.7
+        uses: apollo-fire/gtest-action@v0.0.9
         with:
           test-path: 
             "test/working_unittest_project;\
             test/working_unittest_project_with_existing_cmake"
 
       - name: GTest Action building with j8 flag set
-        uses: apollo-fire/gtest-action@v0.0.7
+        uses: apollo-fire/gtest-action@v0.0.9
         with:
           test-path: 'test/working_unittest_project'
           parallel-compilation-count: 8
 
       - name: GTest Action shuffle 10 times
-        uses: apollo-fire/gtest-action@v0.0.7
+        uses: apollo-fire/gtest-action@v0.0.9
         with:
           test-path: 'test/working_unittest_project'
           shuffle-count: 10
