@@ -34,7 +34,7 @@ jobs:
           
       - name: Dry Run Build
         id: docker_build
-        uses: docker/build-push-action@v5.4.0
+        uses: docker/build-push-action@v6.5.0
         with:
           cache-from: type=gha
           cache-to: type=gha,mode=max
