@@ -3,13 +3,13 @@ name: Lint Project
 
 on:
   merge_group:
-  
+
   push:
     branches:
       - main
 
   pull_request_target:
-    branches: ['dependabot/**']
+    branches: ["dependabot/**"]
 
   pull_request:
     types: [opened, synchronize, edited]
