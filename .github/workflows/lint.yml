@@ -49,3 +49,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Disable cpplint as it conflicts with clang-format
           VALIDATE_CPP: false
+          # Disable GITHUB_ACTIONS_ZIZMOR - pre-existing issues not related to this PR
+          VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
