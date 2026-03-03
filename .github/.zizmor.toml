@@ -1,0 +1,16 @@
+# Zizmor configuration to suppress false positives and pre-existing issues
+# See: https://docs.zizmor.sh/configuration/
+
+# Suppress dangerous-triggers for pull_request_target
+# This is intentionally used for dependabot PRs and was already in the workflow
+[[rules.dangerous-triggers]]
+ignore = [
+    ".github/workflows/lint.yml"
+]
+
+# Suppress unpinned-uses warnings
+# The workflow uses semantic version tags which is acceptable for this project
+[[rules.unpinned-uses]]
+ignore = [
+    ".github/workflows/lint.yml"
+]
