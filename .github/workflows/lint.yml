@@ -14,7 +14,7 @@ on:
   pull_request:
     types: [opened, synchronize, edited]
 
-permissions: read-all
+permissions: {}
 
 jobs:
   super-lint:
