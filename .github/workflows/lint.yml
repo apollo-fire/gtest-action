@@ -35,6 +35,7 @@ jobs:
         with:
           # Get all history to be able to identify changed files
           fetch-depth: 0
+          persist-credentials: false
 
       # Runs the Super-Linter action
       - name: Run Super-Linter
