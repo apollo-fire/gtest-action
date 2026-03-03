@@ -1,5 +1,5 @@
 #checkov:skip=CKV_DOCKER_3: "Ensure that a user for the container has been created"
-#trivy:ignore:DS-0002 - GitHub actions require that the docker image use the root user
+#GitHub actions require that the docker image use the root user
 #https://docs.github.com/en/actions/creating-actions/dockerfile-support-for-github-actions#user
 
 FROM alpine:3.16.2
