@@ -5,9 +5,6 @@ on:
   workflow_dispatch:
   merge_group:
 
-  pull_request_target:
-    branches: ["dependabot/**"]
-
   pull_request:
     types: [opened, synchronize, edited]
 

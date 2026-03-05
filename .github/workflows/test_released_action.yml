@@ -13,8 +13,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
 
-      - name: GTest Action without exisiting CMake file
+      - name: GTest Action without existing CMake file
         uses: apollo-fire/gtest-action@588db698581df15343bfa62f028b5b2ef5afc3b6 # v0.0.9
         with:
           test-path: "test/working_unittest_project"
