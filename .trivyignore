@@ -1,0 +1,3 @@
+# Ignore DS-0002: GitHub Actions require Docker images to use root user
+# See: https://docs.github.com/en/actions/creating-actions/dockerfile-support-for-github-actions#user
+DS002
