@@ -85,3 +85,37 @@ jobs:
             -w /github/workspace \
             gtest-action:test \
             "test/working_unittest_project" "" "unset" "10"
+
+      - name: GTest Action with passing unit tests
+        run: |
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE:/github/workspace" \
+            -w /github/workspace \
+            gtest-action:test \
+            "test/good_unit_tests" "test/good_unit_tests" "2" "1"
+
+      - name: GTest Action with failing unit tests (expects failure)
+        run: |
+          has_failed=false
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE:/github/workspace" \
+            -w /github/workspace \
+            gtest-action:test \
+            "test/failing_unit_tests" "test/failing_unit_tests" "2" "1" || has_failed=true
+          if [ "$has_failed" = false ]; then
+            echo "Expected failure but tests passed"
+            exit 1
+          fi
+
+      - name: GTest Action with mixture of passing and failing unit tests (expects failure)
+        run: |
+          has_failed=false
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE:/github/workspace" \
+            -w /github/workspace \
+            gtest-action:test \
+            "test/good_unit_tests;test/failing_unit_tests" "." "2" "1" || has_failed=true
+          if [ "$has_failed" = false ]; then
+            echo "Expected failure but tests passed"
+            exit 1
+          fi
