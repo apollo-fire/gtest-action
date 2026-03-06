@@ -8,7 +8,7 @@ on:
   pull_request:
     types: [opened, synchronize, edited]
 
-permissions: read-all
+permissions: {}
 
 jobs:
   dry-run-docker-build:
@@ -16,22 +16,102 @@ jobs:
 
     permissions:
       contents: read
-      packages: write
+      actions: write
 
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
-
-      - name: "Login to GitHub docker registry"
-        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Dry Run Build
         id: docker_build
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
         with:
+          load: true
+          tags: local/gtest-action:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: GTest Action without existing CMake file
+        run: |
+          docker run --pull=never --rm \
+            -v "$GITHUB_WORKSPACE:/github/workspace" \
+            -w /github/workspace \
+            local/gtest-action:test \
+            "test/working_unittest_project" "" "unset" "0"
+
+      - name: Clean workspace after test
+        run: sudo git clean -ffdx test/working_unittest_project/
+
+      - name: GTest Action with existing CMake file
+        run: |
+          docker run --pull=never --rm \
+            -v "$GITHUB_WORKSPACE:/github/workspace" \
+            -w /github/workspace \
+            local/gtest-action:test \
+            "test/working_unittest_project_with_existing_cmake" "" "unset" "0"
+
+      - name: GTest Action with mix of project styles, with and without existing CMake file
+        run: |
+          docker run --pull=never --rm \
+            -v "$GITHUB_WORKSPACE:/github/workspace" \
+            -w /github/workspace \
+            local/gtest-action:test \
+            "test/working_unittest_project;test/working_unittest_project_with_existing_cmake" "" "unset" "0"
+
+      - name: Clean workspace after mixed test
+        run: sudo git clean -ffdx test/working_unittest_project/
+
+      - name: GTest Action building with j8 flag set
+        run: |
+          docker run --pull=never --rm \
+            -v "$GITHUB_WORKSPACE:/github/workspace" \
+            -w /github/workspace \
+            local/gtest-action:test \
+            "test/working_unittest_project" "" "8" "0"
+
+      - name: GTest Action shuffle 10 times
+        run: |
+          docker run --pull=never --rm \
+            -v "$GITHUB_WORKSPACE:/github/workspace" \
+            -w /github/workspace \
+            local/gtest-action:test \
+            "test/working_unittest_project" "" "unset" "10"
+
+      - name: GTest Action with passing unit tests
+        run: |
+          docker run --pull=never --rm \
+            -v "$GITHUB_WORKSPACE:/github/workspace" \
+            -w /github/workspace \
+            local/gtest-action:test \
+            "test/good_unit_tests" "test/good_unit_tests" "2" "0"
+
+      - name: GTest Action with failing unit tests (expects failure)
+        run: |
+          set +e
+          docker run --pull=never --rm \
+            -v "$GITHUB_WORKSPACE:/github/workspace" \
+            -w /github/workspace \
+            local/gtest-action:test \
+            "test/failing_unit_tests" "test/failing_unit_tests" "2" "0"
+          exit_code=$?
+          set -e
+          [ "$exit_code" -eq 4 ] || { echo "Expected exit code 4, got $exit_code"; exit 1; }
+          echo "Tests failed as expected with exit code $exit_code"
+
+      - name: GTest Action with mixture of passing and failing unit tests (expects failure)
+        run: |
+          set +e
+          docker run --pull=never --rm \
+            -v "$GITHUB_WORKSPACE:/github/workspace" \
+            -w /github/workspace \
+            local/gtest-action:test \
+            "test/good_unit_tests;test/failing_unit_tests" "." "2" "0"
+          exit_code=$?
+          set -e
+          [ "$exit_code" -eq 4 ] || { echo "Expected exit code 4, got $exit_code"; exit 1; }
+          echo "Tests failed as expected with exit code $exit_code"
