@@ -12,32 +12,34 @@ jobs:
     name: Test GTest Action
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
 
-      - name: GTest Action without exisiting CMake file
-        uses: apollo-fire/gtest-action@v0.0.9
+      - name: GTest Action without existing CMake file
+        uses: apollo-fire/gtest-action@588db698581df15343bfa62f028b5b2ef5afc3b6 # v0.0.9
         with:
           test-path: "test/working_unittest_project"
 
       - name: GTest Action with existing CMake file
-        uses: apollo-fire/gtest-action@v0.0.9
+        uses: apollo-fire/gtest-action@588db698581df15343bfa62f028b5b2ef5afc3b6 # v0.0.9
         with:
           test-path: "test/working_unittest_project_with_existing_cmake"
 
       - name: GTest Action with mix of project styles, with and without existing CMake file
-        uses: apollo-fire/gtest-action@v0.0.9
+        uses: apollo-fire/gtest-action@588db698581df15343bfa62f028b5b2ef5afc3b6 # v0.0.9
         with:
           test-path: "test/working_unittest_project;\
             test/working_unittest_project_with_existing_cmake"
 
       - name: GTest Action building with j8 flag set
-        uses: apollo-fire/gtest-action@v0.0.9
+        uses: apollo-fire/gtest-action@588db698581df15343bfa62f028b5b2ef5afc3b6 # v0.0.9
         with:
           test-path: "test/working_unittest_project"
           parallel-compilation-count: 8
 
       - name: GTest Action shuffle 10 times
-        uses: apollo-fire/gtest-action@v0.0.9
+        uses: apollo-fire/gtest-action@588db698581df15343bfa62f028b5b2ef5afc3b6 # v0.0.9
         with:
           test-path: "test/working_unittest_project"
           shuffle-count: 10
