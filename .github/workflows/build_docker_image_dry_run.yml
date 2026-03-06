@@ -63,6 +63,9 @@ jobs:
             local/gtest-action:test \
             "test/working_unittest_project;test/working_unittest_project_with_existing_cmake" "" "unset" "0"
 
+      - name: Clean workspace after mixed test
+        run: sudo git clean -ffdx test/working_unittest_project/
+
       - name: GTest Action building with j8 flag set
         run: |
           docker run --pull=never --rm \
