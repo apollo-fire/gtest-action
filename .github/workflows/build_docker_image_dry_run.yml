@@ -44,6 +44,9 @@ jobs:
             local/gtest-action:test \
             "test/working_unittest_project" "" "unset" "0"
 
+      - name: Clean workspace after test
+        run: git clean -ffdx
+
       - name: GTest Action with existing CMake file
         run: |
           docker run --pull=never --rm \
@@ -82,7 +85,7 @@ jobs:
             -v "$GITHUB_WORKSPACE:/github/workspace" \
             -w /github/workspace \
             local/gtest-action:test \
-            "test/good_unit_tests" "test/good_unit_tests" "2" "1"
+            "test/good_unit_tests" "test/good_unit_tests" "2" "0"
 
       - name: GTest Action with failing unit tests (expects failure)
         run: |
@@ -91,7 +94,7 @@ jobs:
             -v "$GITHUB_WORKSPACE:/github/workspace" \
             -w /github/workspace \
             local/gtest-action:test \
-            "test/failing_unit_tests" "test/failing_unit_tests" "2" "1"
+            "test/failing_unit_tests" "test/failing_unit_tests" "2" "0"
           exit_code=$?
           set -e
           [ "$exit_code" -eq 4 ] || { echo "Expected exit code 4, got $exit_code"; exit 1; }
@@ -104,7 +107,7 @@ jobs:
             -v "$GITHUB_WORKSPACE:/github/workspace" \
             -w /github/workspace \
             local/gtest-action:test \
-            "test/good_unit_tests;test/failing_unit_tests" "." "2" "1"
+            "test/good_unit_tests;test/failing_unit_tests" "." "2" "0"
           exit_code=$?
           set -e
           [ "$exit_code" -eq 4 ] || { echo "Expected exit code 4, got $exit_code"; exit 1; }
