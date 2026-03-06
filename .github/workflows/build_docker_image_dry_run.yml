@@ -45,7 +45,7 @@ jobs:
             "test/working_unittest_project" "" "unset" "0"
 
       - name: Clean workspace after test
-        run: git clean -ffdx test/working_unittest_project/
+        run: sudo git clean -ffdx test/working_unittest_project/
 
       - name: GTest Action with existing CMake file
         run: |
