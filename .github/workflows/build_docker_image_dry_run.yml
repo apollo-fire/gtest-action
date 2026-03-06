@@ -94,16 +94,8 @@ jobs:
             "test/failing_unit_tests" "test/failing_unit_tests" "2" "1"
           exit_code=$?
           set -e
-          
-          if [ "$exit_code" -eq 0 ]; then
-            echo "Expected failure but tests passed (exit code 0)"
-            exit 1
-          elif [ "$exit_code" -eq 4 ]; then
-            echo "Tests failed as expected with exit code $exit_code"
-          else
-            echo "Unexpected exit code $exit_code (expected 4 for test failure)"
-            exit 1
-          fi
+          [ "$exit_code" -eq 4 ] || { echo "Expected exit code 4, got $exit_code"; exit 1; }
+          echo "Tests failed as expected with exit code $exit_code"
 
       - name: GTest Action with mixture of passing and failing unit tests (expects failure)
         run: |
@@ -115,13 +107,5 @@ jobs:
             "test/good_unit_tests;test/failing_unit_tests" "." "2" "1"
           exit_code=$?
           set -e
-          
-          if [ "$exit_code" -eq 0 ]; then
-            echo "Expected failure but tests passed (exit code 0)"
-            exit 1
-          elif [ "$exit_code" -eq 4 ]; then
-            echo "Tests failed as expected with exit code $exit_code"
-          else
-            echo "Unexpected exit code $exit_code (expected 4 for test failure)"
-            exit 1
-          fi
+          [ "$exit_code" -eq 4 ] || { echo "Expected exit code 4, got $exit_code"; exit 1; }
+          echo "Tests failed as expected with exit code $exit_code"
