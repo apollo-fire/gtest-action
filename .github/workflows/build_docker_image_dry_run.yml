@@ -68,14 +68,16 @@ jobs:
 
       - name: GTest Action building with j8 flag set
         run: |
-          output=$(docker run --pull=never --rm \
+          set -o pipefail
+          tmp_output_file="$(mktemp)"
+          docker run --pull=never --rm \
             -v "$GITHUB_WORKSPACE:/github/workspace" \
             -w /github/workspace \
             local/gtest-action:test \
-            "test/working_unittest_project" "" "8" "0")
-          echo "$output"
-          echo "$output" | grep -q "Requested 8 processing units" || { echo "Missing expected message: Requested 8 processing units"; exit 1; }
-          echo "$output" | grep -q "Setting CPU_COUNT to 8" || { echo "Missing expected message: Setting CPU_COUNT to 8"; exit 1; }
+            "test/working_unittest_project" "" "8" "0" | tee "$tmp_output_file"
+          grep -q "Requested 8 processing units" "$tmp_output_file" || { echo "Missing expected message: Requested 8 processing units"; exit 1; }
+          grep -q "Setting CPU_COUNT to 8" "$tmp_output_file" || { echo "Missing expected message: Setting CPU_COUNT to 8"; exit 1; }
+          rm "$tmp_output_file"
 
       - name: Clean workspace after j8 test
         run: sudo git clean -ffdx test/working_unittest_project/
