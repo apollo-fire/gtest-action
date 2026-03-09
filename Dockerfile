@@ -14,7 +14,8 @@ RUN apk --no-cache add build-base=0.5-r3 \
                        curl=8.17.0-r1 \
                        zip=3.0-r13 \
                        unzip=6.0-r16 \
-                       samurai=1.2-r7
+                       samurai=1.2-r7 \
+                       pkgconf=2.5.1-r0
 
 ENV VCPKG_FORCE_SYSTEM_BINARIES=1 \
     VCPKG_ROOT=/vcpkg
