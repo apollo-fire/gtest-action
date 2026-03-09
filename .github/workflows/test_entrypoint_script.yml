@@ -61,7 +61,7 @@ jobs:
         run: |
           set -o pipefail
           tmp_output_file="$(mktemp)"
+          trap 'rm -f "$tmp_output_file"' EXIT
           ./entrypoint.sh test/good_unit_tests test/good_unit_tests 8 0 | tee "$tmp_output_file"
           grep -q "Requested 8 processing units" "$tmp_output_file" || { echo "Missing expected message: Requested 8 processing units"; exit 1; }
           grep -q "Setting CPU_COUNT to 8" "$tmp_output_file" || { echo "Missing expected message: Setting CPU_COUNT to 8"; exit 1; }
-          rm "$tmp_output_file"

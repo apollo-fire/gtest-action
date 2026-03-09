@@ -70,6 +70,7 @@ jobs:
         run: |
           set -o pipefail
           tmp_output_file="$(mktemp)"
+          trap 'rm -f "$tmp_output_file"' EXIT
           docker run --pull=never --rm \
             -v "$GITHUB_WORKSPACE:/github/workspace" \
             -w /github/workspace \
@@ -77,7 +78,6 @@ jobs:
             "test/working_unittest_project" "" "8" "0" | tee "$tmp_output_file"
           grep -q "Requested 8 processing units" "$tmp_output_file" || { echo "Missing expected message: Requested 8 processing units"; exit 1; }
           grep -q "Setting CPU_COUNT to 8" "$tmp_output_file" || { echo "Missing expected message: Setting CPU_COUNT to 8"; exit 1; }
-          rm "$tmp_output_file"
 
       - name: Clean workspace after j8 test
         run: sudo git clean -ffdx test/working_unittest_project/
