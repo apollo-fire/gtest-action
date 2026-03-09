@@ -7,9 +7,9 @@ inputs:
     description: 'How to run the tests: "docker" or "direct"'
     required: true
   docker-image:
-    description: 'Docker image tag to use (only needed for docker mode)'
+    description: "Docker image tag to use (only needed for docker mode)"
     required: false
-    default: 'local/gtest-action:test'
+    default: "local/gtest-action:test"
 
 runs:
   using: composite
