@@ -46,3 +46,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Disable cpplint as it conflicts with clang-format
           VALIDATE_CPP: false
+          # Disable commitlint as that is handled separately
+          VALIDATE_GIT_COMMITLINT: false
