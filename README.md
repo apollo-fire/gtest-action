@@ -4,7 +4,7 @@ Docker Action that can build and execute Googletest cases
 
 ## Dependency management
 
-GoogleTest is managed via [vcpkg](https://vcpkg.io). The `vcpkg.json` manifest at the repository root declares GoogleTest as a dependency and can be used by tools such as [Dependabot](https://docs.github.com/en/code-security/dependabot) to track updates when appropriately configured.
+GoogleTest is managed via [vcpkg](https://vcpkg.io). The `vcpkg.json` manifest at the repository root declares GoogleTest as a dependency. [Dependabot](https://docs.github.com/en/code-security/dependabot) is configured to automatically track and update this dependency.
 
 ### Installing dependencies with vcpkg
 
