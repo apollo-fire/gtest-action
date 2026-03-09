@@ -82,36 +82,8 @@ jobs:
             local/gtest-action:test \
             "test/working_unittest_project" "" "unset" "10"
 
-      - name: GTest Action with passing unit tests
-        run: |
-          docker run --pull=never --rm \
-            -v "$GITHUB_WORKSPACE:/github/workspace" \
-            -w /github/workspace \
-            local/gtest-action:test \
-            "test/good_unit_tests" "test/good_unit_tests" "2" "0"
-
-      - name: GTest Action with failing unit tests (expects failure)
-        run: |
-          set +e
-          docker run --pull=never --rm \
-            -v "$GITHUB_WORKSPACE:/github/workspace" \
-            -w /github/workspace \
-            local/gtest-action:test \
-            "test/failing_unit_tests" "test/failing_unit_tests" "2" "0"
-          exit_code=$?
-          set -e
-          [ "$exit_code" -eq 4 ] || { echo "Expected exit code 4, got $exit_code"; exit 1; }
-          echo "Tests failed as expected with exit code $exit_code"
-
-      - name: GTest Action with mixture of passing and failing unit tests (expects failure)
-        run: |
-          set +e
-          docker run --pull=never --rm \
-            -v "$GITHUB_WORKSPACE:/github/workspace" \
-            -w /github/workspace \
-            local/gtest-action:test \
-            "test/good_unit_tests;test/failing_unit_tests" "." "2" "0"
-          exit_code=$?
-          set -e
-          [ "$exit_code" -eq 4 ] || { echo "Expected exit code 4, got $exit_code"; exit 1; }
-          echo "Tests failed as expected with exit code $exit_code"
+      - name: Run test scenarios for passing/failing tests
+        uses: ./.github/actions/test-scenarios
+        with:
+          execution-mode: docker
+          docker-image: local/gtest-action:test

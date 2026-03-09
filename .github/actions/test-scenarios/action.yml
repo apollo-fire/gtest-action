@@ -1,0 +1,81 @@
+---
+name: GTest Scenarios Test Suite
+description: Runs common test scenarios for both Docker and direct execution modes
+
+inputs:
+  execution-mode:
+    description: 'How to run the tests: "docker" or "direct"'
+    required: true
+  docker-image:
+    description: 'Docker image tag to use (only needed for docker mode)'
+    required: false
+    default: 'local/gtest-action:test'
+
+runs:
+  using: composite
+  steps:
+    - name: Setup CMake files for direct execution
+      if: inputs.execution-mode == 'direct'
+      shell: bash
+      run: |
+        cp CMakeLists.txt test/good_unit_tests/CMakeLists.txt
+        cp CMakeLists.txt test/failing_unit_tests/CMakeLists.txt
+
+    - name: Test passing unit tests
+      shell: bash
+      run: |
+        if [ "${{ inputs.execution-mode }}" = "docker" ]; then
+          docker run --pull=never --rm \
+            -v "$GITHUB_WORKSPACE:/github/workspace" \
+            -w /github/workspace \
+            ${{ inputs.docker-image }} \
+            "test/good_unit_tests" "test/good_unit_tests" "2" "0"
+        else
+          ./entrypoint.sh test/good_unit_tests test/good_unit_tests 2 0
+        fi
+
+    - name: Test failing unit tests (expects failure)
+      shell: bash
+      run: |
+        set +e
+        if [ "${{ inputs.execution-mode }}" = "docker" ]; then
+          docker run --pull=never --rm \
+            -v "$GITHUB_WORKSPACE:/github/workspace" \
+            -w /github/workspace \
+            ${{ inputs.docker-image }} \
+            "test/failing_unit_tests" "test/failing_unit_tests" "2" "0"
+        else
+          ./entrypoint.sh test/failing_unit_tests test/failing_unit_tests 2 0
+        fi
+        exit_code=$?
+        set -e
+        if [ "${{ inputs.execution-mode }}" = "docker" ]; then
+          [ "$exit_code" -eq 4 ] || { echo "Expected exit code 4, got $exit_code"; exit 1; }
+          echo "Tests failed as expected with exit code $exit_code"
+        else
+          [ "$exit_code" -ne 0 ] || { echo "Expected non-zero exit code, got $exit_code"; exit 1; }
+          echo "Tests failed as expected"
+        fi
+
+    - name: Test mixture of passing and failing unit tests (expects failure)
+      shell: bash
+      run: |
+        set +e
+        if [ "${{ inputs.execution-mode }}" = "docker" ]; then
+          docker run --pull=never --rm \
+            -v "$GITHUB_WORKSPACE:/github/workspace" \
+            -w /github/workspace \
+            ${{ inputs.docker-image }} \
+            "test/good_unit_tests;test/failing_unit_tests" "." "2" "0"
+        else
+          ./entrypoint.sh "test/good_unit_tests;test/failing_unit_tests" "." 2 0
+        fi
+        exit_code=$?
+        set -e
+        if [ "${{ inputs.execution-mode }}" = "docker" ]; then
+          [ "$exit_code" -eq 4 ] || { echo "Expected exit code 4, got $exit_code"; exit 1; }
+          echo "Tests failed as expected with exit code $exit_code"
+        else
+          [ "$exit_code" -ne 0 ] || { echo "Expected non-zero exit code, got $exit_code"; exit 1; }
+          echo "Tests failed as expected"
+        fi
