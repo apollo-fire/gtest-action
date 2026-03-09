@@ -31,7 +31,7 @@ runs:
             ${INPUTS_DOCKER_IMAGE} \
             "test/good_unit_tests" "test/good_unit_tests" "2" "0"
         else
-          ./entrypoint.sh test/good_unit_tests test/good_unit_tests 2 1
+          ./entrypoint.sh test/good_unit_tests test/good_unit_tests 2 0
         fi
       env:
         INPUTS_EXECUTION_MODE: ${{ inputs.execution-mode }}
@@ -48,7 +48,7 @@ runs:
             ${INPUTS_DOCKER_IMAGE} \
             "test/failing_unit_tests" "test/failing_unit_tests" "2" "0"
         else
-          ./entrypoint.sh test/failing_unit_tests test/failing_unit_tests 2 1
+          ./entrypoint.sh test/failing_unit_tests test/failing_unit_tests 2 0
         fi
         exit_code=$?
         set -e
@@ -69,7 +69,7 @@ runs:
             ${INPUTS_DOCKER_IMAGE} \
             "test/good_unit_tests;test/failing_unit_tests" "." "2" "0"
         else
-          ./entrypoint.sh "test/good_unit_tests;test/failing_unit_tests" "." 2 1
+          ./entrypoint.sh "test/good_unit_tests;test/failing_unit_tests" "." 2 0
         fi
         exit_code=$?
         set -e
