@@ -82,7 +82,7 @@ jobs:
             local/gtest-action:test \
             "test/working_unittest_project" "" "unset" "10"
 
-      - name: Run test scenarios for passing/failing tests
+      - name: Run passing and failing unit test scenarios
         uses: ./.github/actions/test-scenarios
         with:
           execution-mode: docker

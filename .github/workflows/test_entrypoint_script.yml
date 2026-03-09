@@ -34,7 +34,7 @@ jobs:
           sudo ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
           popd || exit 2
 
-      - name: Run test scenarios
+      - name: Run passing and failing unit test scenarios
         uses: ./.github/actions/test-scenarios
         with:
           execution-mode: direct
