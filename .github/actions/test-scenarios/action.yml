@@ -49,13 +49,8 @@ runs:
         fi
         exit_code=$?
         set -e
-        if [ "${{ inputs.execution-mode }}" = "docker" ]; then
-          [ "$exit_code" -eq 4 ] || { echo "Expected exit code 4, got $exit_code"; exit 1; }
-          echo "Tests failed as expected with exit code $exit_code"
-        else
-          [ "$exit_code" -ne 0 ] || { echo "Expected non-zero exit code, got $exit_code"; exit 1; }
-          echo "Tests failed as expected"
-        fi
+        [ "$exit_code" -eq 4 ] || { echo "Expected exit code 4, got $exit_code"; exit 1; }
+        echo "Tests failed as expected with exit code $exit_code"
 
     - name: Test mixture of passing and failing unit tests (expects failure)
       shell: bash
@@ -72,10 +67,5 @@ runs:
         fi
         exit_code=$?
         set -e
-        if [ "${{ inputs.execution-mode }}" = "docker" ]; then
-          [ "$exit_code" -eq 4 ] || { echo "Expected exit code 4, got $exit_code"; exit 1; }
-          echo "Tests failed as expected with exit code $exit_code"
-        else
-          [ "$exit_code" -ne 0 ] || { echo "Expected non-zero exit code, got $exit_code"; exit 1; }
-          echo "Tests failed as expected"
-        fi
+        [ "$exit_code" -eq 4 ] || { echo "Expected exit code 4, got $exit_code"; exit 1; }
+        echo "Tests failed as expected with exit code $exit_code"
