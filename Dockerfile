@@ -2,16 +2,16 @@
 #GitHub actions require that the docker image use the root user
 #https://docs.github.com/en/actions/creating-actions/dockerfile-support-for-github-actions#user
 
-FROM alpine:3.16.2
+FROM alpine:3.23.3
 
 RUN apk --no-cache add build-base=0.5-r3 \
-                       cmake=3.23.5-r0 \
-                       gtest=1.11.0_git20220205-r1 \
-                       gtest-dev=1.11.0_git20220205-r1 \
-                       gcovr=5.2-r0 \
-                       uuidgen=2.38-r1 \
-                       bash=5.1.16-r2 \
-                       valgrind=3.19.0-r0
+                       cmake=4.1.3-r0 \
+                       gtest=1.17.0-r0 \
+                       gtest-dev=1.17.0-r0 \
+                       gcovr=8.4-r0 \
+                       uuidgen=2.41.2-r0 \
+                       bash=5.3.3-r1 \
+                       valgrind=3.25.1-r2
 RUN mkdir /workdir
 
 COPY entrypoint.sh /entrypoint.sh
