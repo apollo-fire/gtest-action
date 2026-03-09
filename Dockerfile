@@ -13,14 +13,16 @@ RUN apk --no-cache add build-base=0.5-r3 \
                        git=2.52.0-r0 \
                        curl=8.17.0-r1 \
                        zip=3.0-r13 \
-                       unzip=6.0-r16
+                       unzip=6.0-r16 \
+                       ninja-build=1.13.2-r0
+
+ENV VCPKG_FORCE_SYSTEM_BINARIES=1 \
+    VCPKG_ROOT=/vcpkg
 
 RUN git clone https://github.com/microsoft/vcpkg /vcpkg && \
     git -C /vcpkg checkout b322364f06308bdd24823f9d8f03fe0cc86fd46f && \
     /vcpkg/bootstrap-vcpkg.sh -disableMetrics && \
     /vcpkg/vcpkg install "gtest:x64-linux" --no-print-usage
-
-ENV VCPKG_ROOT=/vcpkg
 
 RUN mkdir /workdir
 
