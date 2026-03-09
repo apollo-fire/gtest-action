@@ -1,9 +1,10 @@
 # gtest_action
+
 Docker Action that can build and execute Googletest cases
 
 ## Dependency management
 
-GoogleTest is managed via [vcpkg](https://vcpkg.io). The `vcpkg.json` manifest at the repository root declares GoogleTest as a dependency, which enables [Dependabot](https://docs.github.com/en/code-security/dependabot) to automatically open PRs when new versions of GoogleTest are available.
+GoogleTest is managed via [vcpkg](https://vcpkg.io). The `vcpkg.json` manifest at the repository root declares GoogleTest as a dependency and can be used by tools such as [Dependabot](https://docs.github.com/en/code-security/dependabot) to track updates when appropriately configured.
 
 ### Installing dependencies with vcpkg
 
@@ -21,31 +22,39 @@ GoogleTest is managed via [vcpkg](https://vcpkg.io). The `vcpkg.json` manifest a
 > **Note:** If `VCPKG_ROOT` is set in your environment, the CMakeLists.txt files in this project will automatically detect and use the vcpkg toolchain.
 
 ## Example usage
+
 ### Where source code is included in test directories
+
 ```yaml
 - uses: apollo-fire/gtest-action@v0.0.9
   with:
-    test-path: 'src/tests/drivers;src/tests/application'
+    test-path: "src/tests/drivers;src/tests/application"
 ```
+
 ### Where source code is separate to test directory
+
 ```yaml
 - uses: apollo-fire/gtest-action@v0.0.9
   with:
-    test-path: 'tests/'
-    source-path: 'src/'
+    test-path: "tests/"
+    source-path: "src/"
 ```
+
 ### Where build parallelisation is overridden
+
 ```yaml
 - uses: apollo-fire/gtest-action@v0.0.9
   with:
-    test-path: 'src/tests/drivers;src/tests/application'
+    test-path: "src/tests/drivers;src/tests/application"
     parallel-compilation-count: 4
 ```
+
 ### Where tests should be run in a shuffled order 10 times
+
 ```yaml
 - uses: apollo-fire/gtest-action@v0.0.9
   with:
-    test-path: 'src/tests/drivers;src/tests/application'
+    test-path: "src/tests/drivers;src/tests/application"
     parallel-compilation-count: 4
     shuffle-count: 10
 ```

@@ -22,9 +22,6 @@ project(unit_tests)
 find_package(GTest REQUIRED)
 find_package(Threads REQUIRED)
 
-# pull in the GTest include files
-include_directories(${GTEST_INCLUDE_DIRS})
-
 # Recursively search for *.cpp files
 file(GLOB unittest_SRC "*.cpp")
 
@@ -33,10 +30,10 @@ add_definitions(-DUNIT_TESTING)
 add_definitions(-fprofile-arcs -ftest-coverage )
 
 # define the compiler options to be used
-add_compile_options(-Wall -g3 -O0 -fPIC -pthread -lgtest_main -lgtest -lpthread)
+add_compile_options(-Wall -g3 -O0 -fPIC)
 
 # define the executable to be generated
 add_executable(unit_tests ${unittest_SRC})
 
 # Link 'unit_tests' the GTest library and the pthread library
-target_link_libraries(unit_tests ${GTEST_LIBRARIES} pthread gcov)
+target_link_libraries(unit_tests GTest::gtest_main GTest::gtest Threads::Threads gcov)

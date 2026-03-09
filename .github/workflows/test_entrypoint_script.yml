@@ -25,11 +25,12 @@ jobs:
 
       - name: Install vcpkg and GoogleTest
         run: |
-          git clone --depth 1 --branch 2024.12.16 https://github.com/microsoft/vcpkg /tmp/vcpkg
+          git clone https://github.com/microsoft/vcpkg /tmp/vcpkg
+          git -C /tmp/vcpkg checkout b322364f06308bdd24823f9d8f03fe0cc86fd46f
           /tmp/vcpkg/bootstrap-vcpkg.sh -disableMetrics
           /tmp/vcpkg/vcpkg install "gtest:x64-linux" --no-print-usage
           # libicu-dev is no longer needed: gtest is now provided by vcpkg, not built from Ubuntu sources
-          sudo apt-get install -y gcovr valgrind --no-install-recommends
+          sudo apt-get update && sudo apt-get install -y gcovr valgrind --no-install-recommends
           echo "VCPKG_ROOT=/tmp/vcpkg" >> "$GITHUB_ENV"
 
       - name: Verify vcpkg setup
