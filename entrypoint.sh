@@ -63,7 +63,8 @@ for i in "${paths[@]}"; do
     for executable in "${test_executables[@]}"; do
         if [ "$SHUFFLE_COUNT" -gt 0 ] 2>/dev/null; then
             echo "shuffling tests $SHUFFLE_COUNT times"
-            test_result=$("$executable" --gtest_shuffle --gtest_repeat="$SHUFFLE_COUNT")
+            "$executable" --gtest_shuffle --gtest_repeat="$SHUFFLE_COUNT"
+            test_result=$?
             if [ "$test_result" -ne 0 ]; then
                 has_failed=true
             fi
