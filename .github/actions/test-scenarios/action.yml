@@ -24,25 +24,28 @@ runs:
     - name: Test passing unit tests
       shell: bash
       run: |
-        if [ "${{ inputs.execution-mode }}" = "docker" ]; then
+        if [ "${INPUTS_EXECUTION_MODE}" = "docker" ]; then
           docker run --pull=never --rm \
             -v "$GITHUB_WORKSPACE:/github/workspace" \
             -w /github/workspace \
-            ${{ inputs.docker-image }} \
+            ${INPUTS_DOCKER_IMAGE} \
             "test/good_unit_tests" "test/good_unit_tests" "2" "0"
         else
           ./entrypoint.sh test/good_unit_tests test/good_unit_tests 2 1
         fi
+      env:
+        INPUTS_EXECUTION_MODE: ${{ inputs.execution-mode }}
+        INPUTS_DOCKER_IMAGE: ${{ inputs.docker-image }}
 
     - name: Test failing unit tests (expects failure)
       shell: bash
       run: |
         set +e
-        if [ "${{ inputs.execution-mode }}" = "docker" ]; then
+        if [ "${INPUTS_EXECUTION_MODE}" = "docker" ]; then
           docker run --pull=never --rm \
             -v "$GITHUB_WORKSPACE:/github/workspace" \
             -w /github/workspace \
-            ${{ inputs.docker-image }} \
+            ${INPUTS_DOCKER_IMAGE} \
             "test/failing_unit_tests" "test/failing_unit_tests" "2" "0"
         else
           ./entrypoint.sh test/failing_unit_tests test/failing_unit_tests 2 1
@@ -51,16 +54,19 @@ runs:
         set -e
         [ "$exit_code" -eq 4 ] || { echo "Expected exit code 4, got $exit_code"; exit 1; }
         echo "Tests failed as expected with exit code $exit_code"
+      env:
+        INPUTS_EXECUTION_MODE: ${{ inputs.execution-mode }}
+        INPUTS_DOCKER_IMAGE: ${{ inputs.docker-image }}
 
     - name: Test mixture of passing and failing unit tests (expects failure)
       shell: bash
       run: |
         set +e
-        if [ "${{ inputs.execution-mode }}" = "docker" ]; then
+        if [ "${INPUTS_EXECUTION_MODE}" = "docker" ]; then
           docker run --pull=never --rm \
             -v "$GITHUB_WORKSPACE:/github/workspace" \
             -w /github/workspace \
-            ${{ inputs.docker-image }} \
+            ${INPUTS_DOCKER_IMAGE} \
             "test/good_unit_tests;test/failing_unit_tests" "." "2" "0"
         else
           ./entrypoint.sh "test/good_unit_tests;test/failing_unit_tests" "." 2 1
@@ -69,3 +75,6 @@ runs:
         set -e
         [ "$exit_code" -eq 4 ] || { echo "Expected exit code 4, got $exit_code"; exit 1; }
         echo "Tests failed as expected with exit code $exit_code"
+      env:
+        INPUTS_EXECUTION_MODE: ${{ inputs.execution-mode }}
+        INPUTS_DOCKER_IMAGE: ${{ inputs.docker-image }}
