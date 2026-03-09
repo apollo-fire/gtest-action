@@ -1,6 +1,25 @@
 # gtest_action
 Docker Action that can build and execute Googletest cases
 
+## Dependency management
+
+GoogleTest is managed via [vcpkg](https://vcpkg.io). The `vcpkg.json` manifest at the repository root declares GoogleTest as a dependency, which enables [Dependabot](https://docs.github.com/en/code-security/dependabot) to automatically open PRs when new versions of GoogleTest are available.
+
+### Installing dependencies with vcpkg
+
+1. [Install vcpkg](https://learn.microsoft.com/en-us/vcpkg/get_started/get-started) and set `VCPKG_ROOT` to its installation directory.
+2. Install dependencies:
+   ```sh
+   vcpkg install
+   ```
+3. Build with the vcpkg toolchain:
+   ```sh
+   cmake CMakeLists.txt -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+   make
+   ```
+
+> **Note:** If `VCPKG_ROOT` is set in your environment, the CMakeLists.txt files in this project will automatically detect and use the vcpkg toolchain.
+
 ## Example usage
 ### Where source code is included in test directories
 ```yaml

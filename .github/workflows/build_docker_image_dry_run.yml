@@ -36,6 +36,15 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Verify vcpkg installation in container
+        run: |
+          docker run --pull=never --rm --entrypoint /bin/sh local/gtest-action:test -c '
+            [ -n "$VCPKG_ROOT" ] || { echo "VCPKG_ROOT not set"; exit 1; }
+            [ -f "$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" ] || { echo "vcpkg toolchain missing"; exit 1; }
+            [ -d "$VCPKG_ROOT/installed/x64-linux/include/gtest" ] || { echo "gtest not installed via vcpkg"; exit 1; }
+            echo "vcpkg verified: VCPKG_ROOT=$VCPKG_ROOT"
+          '
+
       - name: GTest Action without existing CMake file
         run: |
           docker run --pull=never --rm \
