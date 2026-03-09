@@ -31,7 +31,7 @@ runs:
             ${{ inputs.docker-image }} \
             "test/good_unit_tests" "test/good_unit_tests" "2" "0"
         else
-          ./entrypoint.sh test/good_unit_tests test/good_unit_tests 2 0
+          ./entrypoint.sh test/good_unit_tests test/good_unit_tests 2 1
         fi
 
     - name: Test failing unit tests (expects failure)
@@ -45,7 +45,7 @@ runs:
             ${{ inputs.docker-image }} \
             "test/failing_unit_tests" "test/failing_unit_tests" "2" "0"
         else
-          ./entrypoint.sh test/failing_unit_tests test/failing_unit_tests 2 0
+          ./entrypoint.sh test/failing_unit_tests test/failing_unit_tests 2 1
         fi
         exit_code=$?
         set -e
@@ -63,7 +63,7 @@ runs:
             ${{ inputs.docker-image }} \
             "test/good_unit_tests;test/failing_unit_tests" "." "2" "0"
         else
-          ./entrypoint.sh "test/good_unit_tests;test/failing_unit_tests" "." 2 0
+          ./entrypoint.sh "test/good_unit_tests;test/failing_unit_tests" "." 2 1
         fi
         exit_code=$?
         set -e
