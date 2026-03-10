@@ -30,3 +30,4 @@
 - [ ] All CI checks pass
 - [ ] Documentation updated, if applicable (e.g. `README.md`, `action.yml` descriptions; otherwise mark as N/A)
 - [ ] No secrets or sensitive data committed
+- [ ] Permissions follow principle of least privilege
