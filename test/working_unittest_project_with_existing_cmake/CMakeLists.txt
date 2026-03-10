@@ -1,4 +1,10 @@
 cmake_minimum_required(VERSION 3.21)
+
+# Use vcpkg toolchain if VCPKG_ROOT is set and no toolchain is already specified
+if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+endif()
+
 project(example-unit-test_project CXX C)
 
 # use C++20 standard
@@ -16,23 +22,12 @@ add_compile_options(
 )
 add_link_options(--coverage)
 
-# build GoogleTest from external source
-if(NOT ${CMAKE_VERSION} VERSION_LESS "3.24")
-  cmake_policy(SET CMP0135 NEW)
-endif()
-
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-
-  # v1.15.2
-  URL https://github.com/google/googletest/archive/refs/tags/v1.15.2.zip
-  URL_HASH SHA256=f179ec217f9b3b3f3c6e8b02d3e7eda997b49e4ce26d6b235c9053bec9c0bf9f
-)
-
-# for Windows: prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
+# GoogleTest is managed via vcpkg. Install dependencies with:
+#   vcpkg install
+# and configure cmake with:
+#   cmake CMakeLists.txt -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
+find_package(GTest REQUIRED)
+find_package(Threads REQUIRED)
 
 # Compiler warnings
 add_compile_options(

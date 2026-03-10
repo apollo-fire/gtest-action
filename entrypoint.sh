@@ -46,7 +46,11 @@ for i in "${paths[@]}"; do
     fi
 
     pushd "$i" || exit 1
-    cmake CMakeLists.txt
+    CMAKE_ARGS=(CMakeLists.txt)
+    if [ -n "$VCPKG_ROOT" ]; then
+        CMAKE_ARGS+=("-DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake")
+    fi
+    cmake "${CMAKE_ARGS[@]}"
     make -j "$CPU_COUNT" || exit 2
 
     # Find all executables ending in _tests recursively in the specified root directory
