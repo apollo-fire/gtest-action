@@ -34,28 +34,10 @@ jobs:
           sudo ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
           popd || exit 2
 
-      - name: Check working unit tests
-        run: |
-          cp CMakeLists.txt test/good_unit_tests/CMakeLists.txt
-          ./entrypoint.sh test/good_unit_tests test/good_unit_tests 2 1
-
-      - name: Check failing unit tests
-        run: |
-          cp CMakeLists.txt test/failing_unit_tests/CMakeLists.txt
-          has_failed=false
-          ./entrypoint.sh test/failing_unit_tests test/failing_unit_tests 2 1 || has_failed=true
-          if [ "$has_failed" = false ]; then
-              exit 1
-          fi
-
-      - name: Check mixture of passing and failing unit tests
-        run: |
-          has_failed=false
-          projects="test/good_unit_tests;test/failing_unit_tests"
-          ./entrypoint.sh "$projects" "." 2 1 || has_failed=true
-          if [ "$has_failed" = false ]; then
-              exit 1
-          fi
+      - name: Run passing and failing unit test scenarios
+        uses: ./.github/actions/test-scenarios
+        with:
+          execution-mode: direct
 
       - name: Check that requested processing units are used
         run: |
