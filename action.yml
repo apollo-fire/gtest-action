@@ -20,8 +20,7 @@ inputs:
     default: 0  
 runs:
   using: 'docker'
-  # image: Dockerfile
-  image: 'docker://ghcr.io/apollo-fire/gtest-action:v0.0.9'
+  image: Dockerfile
   args:
     - ${{ inputs.test-path }}
     - ${{ inputs.source-path }}
