@@ -83,7 +83,7 @@ for i in "${paths[@]}"; do
 
     # generate a coverage report
     uuid=$(uuidgen)
-    gcovr . --root "$source_dir" --branches --xml-pretty >>"$uuid-report.xml"
+    gcovr . --root "$source_dir" --branches --decisions --conditions --xml-pretty >>"$uuid-report.xml"
 done
 
 # evaluate the results and exit if a test failed

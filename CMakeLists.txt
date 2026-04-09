@@ -20,7 +20,7 @@ file(GLOB unittest_SRC "*.cpp")
 
 # define UNIT_TESTING
 add_definitions(-DUNIT_TESTING)
-add_definitions(-fprofile-arcs -ftest-coverage )
+add_definitions(-fprofile-arcs -ftest-coverage -fcondition-coverage)
 
 # define the compiler options to be used
 add_compile_options(-Wall -g3 -O0 -fPIC -pthread -lgtest_main -lgtest -lpthread)

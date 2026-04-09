@@ -1,6 +1,8 @@
 # gtest_action
 Docker Action that can build and execute Googletest cases
 
+Coverage reports are generated using gcovr and include branch coverage, decision coverage, and Modified Condition/Decision Coverage (MCDC) metrics.
+
 ## Example usage
 ### Where source code is included in test directories
 ```yaml

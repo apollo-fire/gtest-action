@@ -25,7 +25,10 @@ jobs:
 
       - name: Install Gtest
         run: |
-          sudo apt-get install libgtest-dev gcovr libicu-dev valgrind
+          sudo apt-get install libgtest-dev gcc-14 g++-14 libicu-dev valgrind
+          sudo pip install gcovr==8.4 --break-system-packages
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
           pushd /usr/src/gtest || exit 1
           sudo cmake CMakeLists.txt
           sudo make
