@@ -1,34 +1,43 @@
 # gtest_action
+
 Docker Action that can build and execute Googletest cases
 
 Coverage reports are generated using gcovr and include branch coverage, decision coverage, and Modified Condition/Decision Coverage (MCDC) metrics.
 
 ## Example usage
+
 ### Where source code is included in test directories
+
 ```yaml
 - uses: apollo-fire/gtest-action@v0.0.9
   with:
-    test-path: 'src/tests/drivers;src/tests/application'
+    test-path: "src/tests/drivers;src/tests/application"
 ```
+
 ### Where source code is separate to test directory
+
 ```yaml
 - uses: apollo-fire/gtest-action@v0.0.9
   with:
-    test-path: 'tests/'
-    source-path: 'src/'
+    test-path: "tests/"
+    source-path: "src/"
 ```
+
 ### Where build parallelisation is overridden
+
 ```yaml
 - uses: apollo-fire/gtest-action@v0.0.9
   with:
-    test-path: 'src/tests/drivers;src/tests/application'
+    test-path: "src/tests/drivers;src/tests/application"
     parallel-compilation-count: 4
 ```
+
 ### Where tests should be run in a shuffled order 10 times
+
 ```yaml
 - uses: apollo-fire/gtest-action@v0.0.9
   with:
-    test-path: 'src/tests/drivers;src/tests/application'
+    test-path: "src/tests/drivers;src/tests/application"
     parallel-compilation-count: 4
     shuffle-count: 10
 ```
