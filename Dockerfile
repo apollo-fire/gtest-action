@@ -9,7 +9,7 @@ RUN apk --no-cache add build-base=0.5-r3 \
                        gtest=1.17.0-r0 \
                        gtest-dev=1.17.0-r0 \
                        gcovr=8.4-r0 \
-                       uuidgen=2.41.2-r0 \
+                       uuidgen=2.41.4-r0 \
                        bash=5.3.3-r1 \
                        valgrind=3.25.1-r2
 RUN mkdir /workdir
