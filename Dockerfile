@@ -2,7 +2,7 @@
 #GitHub actions require that the docker image use the root user
 #https://docs.github.com/en/actions/creating-actions/dockerfile-support-for-github-actions#user
 
-FROM alpine:3.23.3
+FROM alpine:3.24.1
 
 RUN apk --no-cache add build-base=0.5-r3 \
                        cmake=4.1.3-r0 \
